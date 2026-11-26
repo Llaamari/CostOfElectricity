@@ -20,6 +20,8 @@ import androidx.compose.runtime.mutableFloatStateOf
 import kotlin.math.roundToInt
 import java.util.Locale
 import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +52,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+
 @Composable
 fun CostOfElectricity(modifier: Modifier = Modifier) {
 
@@ -58,7 +61,29 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
     var reducedVat by remember { mutableStateOf(false) }
 
     val roundedPrice = (price * 100).roundToInt() / 100f
-    val formattedPrice = String.format(Locale.getDefault(), "%.2f", roundedPrice)
+    val formattedPrice = String.format(
+        Locale.getDefault(),
+        "%.2f",
+        roundedPrice
+    )
+
+    val consumption = consumptionInput
+        .replace(',', '.')
+        .toDoubleOrNull()
+        ?.takeIf { it.isFinite() && it >= 0 }
+        ?: 0.0
+
+    val vatPercentage = if (reducedVat) 0.10 else 0.24
+
+    val cost = consumption * roundedPrice
+    val vat = cost * vatPercentage
+    val payment = cost + vat
+
+    val formattedPayment = String.format(
+        Locale.getDefault(),
+        "%.2f",
+        payment
+    )
 
     Column(
         modifier = modifier
@@ -102,6 +127,19 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
 
             Text(
                 text = "VAT 10%"
+            )
+        }
+
+        Surface(
+            modifier = Modifier.align(
+                Alignment.CenterHorizontally
+            ),
+            color = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ) {
+            Text(
+                text = "$formattedPayment €",
+                modifier = Modifier.padding(16.dp)
             )
         }
     }
