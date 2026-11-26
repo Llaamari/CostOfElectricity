@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">CostOfElectricity</string>
+    <string name="app_name">Cost of electricity</string>
+    <string name="consumption">Consumption in kWh</string>
+    <string name="price_per_kwh">Price/kWh %1$s</string>
+    <string name="reduced_vat">VAT 10%</string>
+    <string name="payment">%1$s €</string>
 </resources>

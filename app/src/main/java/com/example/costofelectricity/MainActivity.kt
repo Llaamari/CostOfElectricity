@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import com.example.costofelectricity.ui.theme.CostOfElectricityTheme
 
 class MainActivity : ComponentActivity() {
@@ -61,6 +62,7 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
     var reducedVat by remember { mutableStateOf(false) }
 
     val roundedPrice = (price * 100).roundToInt() / 100f
+
     val formattedPrice = String.format(
         Locale.getDefault(),
         "%.2f",
@@ -92,13 +94,17 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Cost of electricity"
+            text = stringResource(R.string.app_name)
         )
 
         OutlinedTextField(
             value = consumptionInput,
             onValueChange = { consumptionInput = it },
-            label = { Text(text = "Consumption in kWh") },
+            label = {
+                Text(
+                    text = stringResource(R.string.consumption)
+                )
+            },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal
@@ -107,7 +113,10 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = "Price/kWh $formattedPrice"
+            text = stringResource(
+                R.string.price_per_kwh,
+                formattedPrice
+            )
         )
 
         Slider(
@@ -126,7 +135,7 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
             )
 
             Text(
-                text = "VAT 10%"
+                text = stringResource(R.string.reduced_vat)
             )
         }
 
@@ -138,7 +147,10 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
             contentColor = MaterialTheme.colorScheme.onPrimary
         ) {
             Text(
-                text = "$formattedPayment €",
+                text = stringResource(
+                    R.string.payment,
+                    formattedPayment
+                ),
                 modifier = Modifier.padding(16.dp)
             )
         }
