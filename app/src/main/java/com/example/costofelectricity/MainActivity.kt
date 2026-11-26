@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
+import androidx.compose.runtime.mutableFloatStateOf
+import kotlin.math.roundToInt
+import java.util.Locale
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,10 +46,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun CostOfElectricity(modifier: Modifier = Modifier) {
 
     var consumptionInput by remember { mutableStateOf("") }
+    var price by remember { mutableFloatStateOf(0.25f) }
+
+    val roundedPrice = (price * 100).roundToInt() / 100f
+    val formattedPrice = String.format(Locale.getDefault(), "%.2f", roundedPrice)
 
     Column(
         modifier = modifier
@@ -65,6 +74,17 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal
             ),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Text(
+            text = "Price/kWh $formattedPrice"
+        )
+
+        Slider(
+            value = price,
+            onValueChange = { price = it },
+            valueRange = 0f..1f,
             modifier = Modifier.fillMaxWidth()
         )
     }
