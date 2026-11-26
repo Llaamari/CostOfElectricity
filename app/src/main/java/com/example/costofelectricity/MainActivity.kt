@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Checkbox
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -52,6 +55,7 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
 
     var consumptionInput by remember { mutableStateOf("") }
     var price by remember { mutableFloatStateOf(0.25f) }
+    var reducedVat by remember { mutableStateOf(false) }
 
     val roundedPrice = (price * 100).roundToInt() / 100f
     val formattedPrice = String.format(Locale.getDefault(), "%.2f", roundedPrice)
@@ -87,6 +91,19 @@ fun CostOfElectricity(modifier: Modifier = Modifier) {
             valueRange = 0f..1f,
             modifier = Modifier.fillMaxWidth()
         )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = reducedVat,
+                onCheckedChange = { reducedVat = it }
+            )
+
+            Text(
+                text = "VAT 10%"
+            )
+        }
     }
 }
 
